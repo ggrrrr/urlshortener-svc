@@ -28,5 +28,11 @@ build_svc:
 	
 	docker tag ${DOCKER_REPO}/svc/rssaggregator:${GIT_HASH} ${DOCKER_REPO}/svc/rssaggregator:latest
 
-add_url:
-	curl -H'Authorization: Some admin@secret' -XPOST -d'{"long_url":"http://yahoo.com"}' http://localhost:8080/admin/v1
+url_add:
+	curl -q -H'Authorization: Some admin@secret' -XPOST -d'{"long_url":"http://yahoo.com"}' http://localhost:8080/admin/v1
+
+url_list:
+	curl -s -H'Authorization: Some admin@secret' -XGET http://localhost:8080/admin/v1 | jq '.'
+
+url_delete:
+	curl -q -H'Authorization: Some admin@secret' -XDELETE -d'{"key":"CjmlyvZwdaJ"}' http://localhost:8080/admin/v1
