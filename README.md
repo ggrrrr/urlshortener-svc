@@ -19,6 +19,7 @@
 * Each short URL will be based on `<BASE_URL>/<URL_KEY>`
   * `base_url` will be the hostname of the service
   * `url_key` will be alphanumeric string of not more than 7 characters
+* We don`t care if a user try to create already existing long URL.
 
 ## Some design options
 
