@@ -34,12 +34,12 @@ func (a *Application) GetLongURL(ctx context.Context, key string) (url string, e
 	return
 }
 
-func (a *Application) Create(ctx context.Context, request models.CreateShortURL) (string, error) {
+func (a *Application) Create(ctx context.Context, request models.CreateShortURL) (*models.Key, error) {
 	var err error
 
 	authUser, err := roles.ExtractUser(ctx)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	newRecord := repo.NewRecord{
@@ -50,10 +50,12 @@ func (a *Application) Create(ctx context.Context, request models.CreateShortURL)
 
 	newKey, err := a.retryLoop(ctx, newRecord, 10)
 	if err != nil {
-		return "", application.NewSystemError("unable to create short url", err)
+		return nil, application.NewSystemError("unable to create short url", err)
 	}
 
-	return newKey, nil
+	return &models.Key{
+		Key: newKey,
+	}, nil
 }
 
 func (a *Application) retryLoop(ctx context.Context, newRecord repo.NewRecord, counter int) (string, error) {

@@ -11,7 +11,7 @@ import (
 type (
 	appShortURL interface {
 		GetLongURL(ctx context.Context, key string) (url string, err error)
-		Create(ctx context.Context, request models.CreateShortURL) (string, error)
+		Create(ctx context.Context, request models.CreateShortURL) (*models.Key, error)
 		Delete(ctx context.Context, request models.DeleteShortURL) error
 		Update(ctx context.Context, request models.UpdateShortURL) error
 		ListForOwner(ctx context.Context) ([]*models.ShortURLRecord, error)

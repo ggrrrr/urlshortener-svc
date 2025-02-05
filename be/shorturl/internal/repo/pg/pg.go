@@ -3,7 +3,6 @@ package pg
 import (
 	"context"
 	"database/sql"
-	"fmt"
 
 	_ "github.com/lib/pq"
 
@@ -34,8 +33,8 @@ func NewRepo(db *sql.DB) *Repo {
 
 // Create implements repo.ShortURLRepo.
 func (r *Repo) Create(ctx context.Context, record repo.NewRecord) error {
-	sql := fmt.Sprintf("insert into short_url (owner, key, long_url) values($1, $2, $3)")
-	_, err := r.db.ExecContext(ctx, sql, record.Owner, record.Key, record.LongURL)
+	query := `insert into short_url (owner, key, long_url) values($1, $2, $3)`
+	_, err := r.db.ExecContext(ctx, query, record.Owner, record.Key, record.LongURL)
 	if err != nil {
 		return application.NewSystemError("unable to insert", err)
 	}
@@ -45,8 +44,8 @@ func (r *Repo) Create(ctx context.Context, record repo.NewRecord) error {
 
 // Delete implements repo.ShortURLRepo.
 func (r *Repo) Delete(ctx context.Context, key string) error {
-	sql := fmt.Sprintf("delete from short_url where key = $1")
-	_, err := r.db.ExecContext(ctx, sql, key)
+	query := `delete from short_url where key = $1`
+	_, err := r.db.ExecContext(ctx, query, key)
 	if err != nil {
 		return application.NewSystemError("unable to insert", err)
 	}
@@ -55,7 +54,7 @@ func (r *Repo) Delete(ctx context.Context, key string) error {
 
 // GetByKey implements repo.ShortURLRepo.
 func (r *Repo) GetByKey(ctx context.Context, key string) (*repo.URLRecord, error) {
-	query := fmt.Sprintf("select key, owner, long_url, created_at, updated_at from short_url where key = $1")
+	query := `select key, owner, long_url, created_at, updated_at from short_url where key = $1`
 	row := r.db.QueryRowContext(ctx, query, key)
 	if row.Err() != nil {
 		return nil, row.Err()
@@ -74,7 +73,7 @@ func (r *Repo) GetByKey(ctx context.Context, key string) (*repo.URLRecord, error
 
 // ListByOwner implements repo.ShortURLRepo.
 func (r *Repo) ListByOwner(ctx context.Context, owner string) ([]*repo.URLRecord, error) {
-	query := fmt.Sprintf("select key, owner, long_url, created_at, updated_at from short_url where owner = $1")
+	query := `select key, owner, long_url, created_at, updated_at from short_url where owner = $1`
 	rows, err := r.db.QueryContext(ctx, query, owner)
 	if err != nil {
 		return nil, err
@@ -98,8 +97,8 @@ func (r *Repo) ListByOwner(ctx context.Context, owner string) ([]*repo.URLRecord
 
 // Update implements repo.ShortURLRepo.
 func (r *Repo) Update(ctx context.Context, key string, longURL string) error {
-	sql := fmt.Sprintf("update short_url set long_url = $2, updated_at = now() where key = $1")
-	_, err := r.db.ExecContext(ctx, sql, key, longURL)
+	query := `update short_url set long_url = $2, updated_at = now() where key = $1`
+	_, err := r.db.ExecContext(ctx, query, key, longURL)
 	if err != nil {
 		return application.NewSystemError("unable to update", err)
 	}

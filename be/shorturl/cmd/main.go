@@ -54,5 +54,5 @@ func main() {
 		panic(err)
 	}
 
-	system.Start(context.Background())
+	_ = system.Start(context.Background())
 }

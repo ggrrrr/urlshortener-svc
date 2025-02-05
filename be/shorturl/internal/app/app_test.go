@@ -216,7 +216,7 @@ func TestCreate(t *testing.T) {
 		req    models.CreateShortURL
 		prepFn func(t *testing.T)
 		err    error
-		key    string
+		key    *models.Key
 	}{
 		{
 			name: "ok",
@@ -229,7 +229,7 @@ func TestCreate(t *testing.T) {
 				mockRepo.On("Create", repo.NewRecord{Owner: "admin", Key: "key1", LongURL: "long1"}).Return(nil).Once()
 			},
 			err: nil,
-			key: "key1",
+			key: &models.Key{Key: "key1"},
 		},
 		{
 			name: "ok 401",
@@ -240,7 +240,7 @@ func TestCreate(t *testing.T) {
 			prepFn: func(t *testing.T) {
 			},
 			err: application.NewUnauthorized(),
-			key: "",
+			key: nil,
 		},
 		{
 			name: "ok 500",
@@ -253,7 +253,7 @@ func TestCreate(t *testing.T) {
 				mockRepo.On("Create", repo.NewRecord{Owner: "admin", Key: "key1", LongURL: "long1"}).Return(fmt.Errorf("some error")).Once()
 			},
 			err: application.NewSystemError("", nil),
-			key: "",
+			key: nil,
 		},
 	}
 

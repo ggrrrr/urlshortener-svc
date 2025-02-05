@@ -7,7 +7,6 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -78,19 +77,11 @@ func TestRouter(t *testing.T) {
 			prepFunc: func(t *testing.T) {
 				req, err := http.NewRequest("POST", srv.URL+"/admin/v1", strings.NewReader(`{"long_url":"long_url"}`))
 				require.NoError(t, err)
-				mockApp.On("Create", "long_url").Return(
-					models.ShortURLRecord{
-						Key:       "new_key",
-						LongURL:   "long_url",
-						CreatedAt: time.Time{},
-						UpdatedAt: time.Time{},
-					},
-					nil,
-				).Once()
+				mockApp.On("Create", models.CreateShortURL{LongURL: "long_url"}).Return(&models.Key{Key: "key1"}, nil).Once()
 
 				resp, err := http.DefaultClient.Do(req)
 				require.NoError(t, err)
-				testResp(t, resp, 200, `{"key":"new_key","long_url":"long_url","created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z"}`)
+				testResp(t, resp, 200, `{"key":"key1"}`)
 			},
 		},
 		{
@@ -98,8 +89,8 @@ func TestRouter(t *testing.T) {
 			prepFunc: func(t *testing.T) {
 				req, err := http.NewRequest("POST", srv.URL+"/admin/v1", strings.NewReader(`{"long_url":"long_error"}`))
 				require.NoError(t, err)
-				mockApp.On("Create", "long_error").Return(
-					models.ShortURLRecord{},
+				mockApp.On("Create", models.CreateShortURL{LongURL: "long_error"}).Return(
+					nil,
 					application.NewSystemError("sys", fmt.Errorf("error")),
 				).Once()
 
@@ -156,11 +147,11 @@ func TestRouter(t *testing.T) {
 			},
 		},
 		{
-			name: "list update",
+			name: "list ok",
 			prepFunc: func(t *testing.T) {
 				req, err := http.NewRequest("GET", srv.URL+"/admin/v1", nil)
 				require.NoError(t, err)
-				mockApp.On("ListForOwner", "key").Return([]models.ShortURLRecord{}, nil).Once()
+				mockApp.On("ListForOwner").Return([]*models.ShortURLRecord{}, nil).Once()
 
 				resp, err := http.DefaultClient.Do(req)
 				require.NoError(t, err)

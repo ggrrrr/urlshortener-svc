@@ -13,9 +13,13 @@ type MockApp struct {
 }
 
 // Create implements app.
-func (m *MockApp) Create(ctx context.Context, request models.CreateShortURL) (string, error) {
+func (m *MockApp) Create(ctx context.Context, request models.CreateShortURL) (*models.Key, error) {
 	args := m.Called(request)
-	return args.Get(0).(string), args.Error(1)
+	if args.Get(0) != nil {
+		return args.Get(0).(*models.Key), args.Error(1)
+	}
+	return nil, args.Error(1)
+
 }
 
 // Delete implements app.
@@ -32,8 +36,12 @@ func (m *MockApp) GetLongURL(ctx context.Context, key string) (url string, err e
 
 // ListForOwner implements app.
 func (m *MockApp) ListForOwner(ctx context.Context) ([]*models.ShortURLRecord, error) {
-	args := m.Called("key")
-	return args.Get(0).([]*models.ShortURLRecord), args.Error(1)
+	args := m.Called()
+	if args.Get(0) != nil {
+		return args.Get(0).([]*models.ShortURLRecord), args.Error(1)
+	}
+	return nil, args.Error(1)
+
 }
 
 // Update implements app.

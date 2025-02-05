@@ -20,19 +20,14 @@ go_build:
 		./
 	docker tag ${DOCKER_REPO}/be/shorturl:${GIT_HASH} ${DOCKER_REPO}/be/shorturl:latest
 
-build_svc:
-	docker build \
-		-f ./.docker/be.Dockerfile \
-		--tag "${DOCKER_REPO}/svc/rssaggregator:${GIT_HASH}" \
-		./
-	
-	docker tag ${DOCKER_REPO}/svc/rssaggregator:${GIT_HASH} ${DOCKER_REPO}/svc/rssaggregator:latest
+login:
+	curl -q  -XPOST -d'{"username":"admin","password":"mypass"}' http://localhost:8080/login/v1
 
 url_add:
-	curl -q -H'Authorization: Some admin@secret' -XPOST -d'{"long_url":"http://yahoo.com"}' http://localhost:8080/admin/v1
+	curl -q -H'Authorization: Bearer admin@secret' -XPOST -d'{"long_url":"http://yahoo.com"}' http://localhost:8080/admin/v1
 
 url_list:
-	curl -s -H'Authorization: Some admin@secret' -XGET http://localhost:8080/admin/v1 | jq '.'
+	curl -s -H'Authorization: Bearer admin@secret' -XGET http://localhost:8080/admin/v1 | jq '.'
 
 url_delete:
-	curl -q -H'Authorization: Some admin@secret' -XDELETE -d'{"key":"CjmlyvZwdaJ"}' http://localhost:8080/admin/v1
+	curl -q -H'Authorization: Bearer admin@secret' -XDELETE -d'{"key":"YtBX97ZQEVG"}' http://localhost:8080/admin/v1

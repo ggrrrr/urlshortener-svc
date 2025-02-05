@@ -7,6 +7,10 @@ type (
 		LongURL string `json:"long_url"`
 	}
 
+	Key struct {
+		Key string `json:"key"`
+	}
+
 	DeleteShortURL struct {
 		Key string `json:"key"`
 	}
