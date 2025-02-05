@@ -8,7 +8,7 @@
 ## Task details
 
 * the service should be easy to deploy in the cloud (AWS, Heroku, or similar)
-  * Since it is containerles it will be very easy to do so.
+  * Since it is containerizes it will be very easy to do so.
 * use a language of your choice to build the service; feel free to use additional libraries as needed
   * Golang for all backend
 * use a database of your choice to store the service's state
