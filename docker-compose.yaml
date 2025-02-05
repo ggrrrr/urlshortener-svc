@@ -1,0 +1,26 @@
+services:
+  postgres:
+    hostname: postgres
+    container_name: postgres
+    image: postgres:17.2-alpine3.20
+    environment:
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_USER=test
+      - POSTGRES_HOST=localhost
+      - POSTGRES_DB=test
+    ports:
+      - "5432:5432"
+
+  shorturl:
+    hostname: shorturl
+    container_name: shorturl
+    image: local/be/shorturl:latest
+    environment:
+      - LISTEN_ADDR=:8080
+      - CORS_HOSTS=*
+      - DB_HOST=postgres
+      - DB_USERNAME=test
+      - DB_PASSWORD=test
+      - DB_DATABASE=test
+    ports:
+      - "8080:8080"

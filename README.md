@@ -19,19 +19,20 @@
 * Each short URL will be based on `<BASE_URL>/<URL_KEY>`
   * `base_url` will be the hostname of the service
   * `url_key` will be alphanumeric string of not more than 7 characters
-* We don`t care if a user try to create already existing long URL.
+* We don`t care if a user creates already existing long URL.
 
 ## Some design options
 
-1. We will use BASE62 encoding to generate the `URL_KEY`, so this will allow of total 7^62 short URLs stored in the system ( BASE62 encoding is using a-z, A-Z, 0-9)
-2. We will use one table for storing generated short URLs
+1. For ID we will use random generator based on UnixNano.
+2. We will use BASE62 encoding to generate the `URL_KEY`, so this will allow of total > 10^62 short URLs stored in the system ( BASE62 encoding is using a-z, A-Z, 0-9)
+3. We will use one table for storing generated short URLs
    1. Each short URL will have key as primary column
    2. an owner id for tracking who can update/delete the record
    3. original URL
    4. timestamp of creating the record
-3. TODO KEY generation
-4. We will use one table for username/password authentication, each authenticated user will be able to create new short URLs, and delete/update short URL created by the same user
-5. For data store, we can multiple of options
+4. TODO KEY generation
+5. We will use one table for username/password authentication, each authenticated user will be able to create new short URLs, and delete/update short URL created by the same user
+6. For data store, we can multiple of options
 
 ## Out of scope, but also good to consider
 
