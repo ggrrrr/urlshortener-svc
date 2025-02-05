@@ -20,6 +20,14 @@ go_build:
 		./
 	docker tag ${DOCKER_REPO}/be/shorturl:${GIT_HASH} ${DOCKER_REPO}/be/shorturl:latest
 
+go_run:
+	docker compose up -d postgres
+	DB_HOST=localhost \
+		DB_USERNAME=test \
+		DB_PASSWORD=test \
+		DB_DATABASE=test \
+		go run be/shorturl/cmd/main.go
+
 login:
 	curl -q  -XPOST -d'{"username":"admin","password":"mypass"}' http://localhost:8080/login/v1
 
@@ -31,3 +39,7 @@ url_list:
 
 url_delete:
 	curl -q -H'Authorization: Bearer admin@secret' -XDELETE -d'{"key":"YtBX97ZQEVG"}' http://localhost:8080/admin/v1
+
+url_forward:
+	curl -q  -XGET http://localhost:8080/AOkGvLRAujA
+

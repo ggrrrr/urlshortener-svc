@@ -79,10 +79,18 @@
 * [backend dockerfile](/be.Dockerfile) Dockerfile for building image
 * [docker-compose](/docker-compose.yaml) Compose file for testting and local development
 * [Makefile](/Makefile) Make targets
-  * go_build - build docker image
-  * go_test - run backend tests
-  * go_clean - clean go cache
-  * go_lint - run go linter
+  * Targets for build/tests/linter
+    * go_build - build docker image
+    * go_test - run backend tests
+    * go_clean - clean go cache
+    * go_lint - run go linter
+    * go_run - run service locally
+  * Targets for testing the app locally (make sure you have started the `go_run` target)
+    * login - sends LOGIN request to the system
+    * url_add - sends `POST` request to Generate new short URL
+    * url_list - Sends `GET` request to `admin/v1` endpoint to fetch all records for current user ( only `admin` )
+    * url_delete - Sends `DELETE` request to `admin/v1` with hardcoded `URL_KEY`
+    * url_forward - sends `GET` request to `/<KEY>` ( hardcoded KEY value)
 * [golang backend](/be) - All GoLang backend code
   * [common](/be/common) - common package which can be re-used in other services
     * [application](/be/common/application) - General application models ( errors only for now)
