@@ -45,6 +45,35 @@
     * We can use DynamoDB (AWS service), this is distributed, high available database, provided by AWS
     * CassandraDB/Scylla DB is also very good drustributed database, which can handle high `insert` traffic, can be self managed.
 
+## Install
+
+* Apart from GoLang 1.23.+ you will need to following for local development
+  * Standard *nix make utils
+  * [Docker](https://docs.docker.com/engine/install/)
+    * other options of docker are also possible which can be used for building of images
+  * [docker compose](https://docs.docker.com/compose/install/)
+  * [JSON Query](https://jqlang.org/download/)
+  * [Linter](https://golangci-lint.run/welcome/install/) 
+* Run it localy
+  * Start local postgres
+    * `docker compose up -d postgres`
+  * Set env variables
+
+    ```bash
+    export DB_HOST=localhost
+    export DB_USERNAME=test
+    export DB_PASSWORD=test
+    export DB_DATABASE=test
+    ```
+
+  * Start main.go
+
+    ```bash
+    $ go run be/shorturl/cmd/main.go
+    2025/02/06 00:10:22 INFO Connect.Open host=localhost:5432 database=test
+    2025/02/06 00:10:22 INFO Start ListenAddr=:8080
+    ```
+
 ## Repository structure
 
 * [backend dockerfile](/be.Dockerfile) Dockerfile for building image
@@ -54,7 +83,7 @@
   * go_test - run backend tests
   * go_clean - clean go cache
   * go_lint - run go linter
-* [golang backend](/be) - All GoLAng backend code
+* [golang backend](/be) - All GoLang backend code
   * [common](/be/common) - common package which can be re-used in other services
     * [application](/be/common/application) - General application models ( errors only for now)
     * [logging](/be/common/logger) - logging
@@ -136,7 +165,7 @@ flowchart TB
   insert_new --error--> if_counter{ counter > 0}
   if_counter --No--> err
   if_counter --Yes--> retry_loop
-  done((return short key))
+  done((return key))
   err((error))
 
 ```
