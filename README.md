@@ -28,12 +28,13 @@
 
 1. For ID we will use random generator based on time.
 2. We will use BASE62 encoding to generate the `URL_KEY`, so this will allow of total ~10^62 short URLs stored in the system ( BASE62 encoding is using a-z, A-Z, 0-9)
-3. We will use one table for storing generated short `URL_KEY`s
+3. If the URL_KEY exists we will attempt multiple times ( current 10 times)
+4. We will use one table for storing generated short `URL_KEY`s
    1. Each short `URL_KEY` will be as primary column
    2. Owner id for tracking who can update/delete the record
    3. original URL e.g. long URL
    4. timestamp of creating/updateing the record
-4. We will use one dummy table for username/password authentication. The login call will generate `TOKEN` value, this value then must be used as HTTP HEADER: `Authorization: Bearer <TOKEN>`, please see [Makefile](/Makefile) for examples.
+5. We will use one dummy table for username/password authentication. The login call will generate `TOKEN` value, this value then must be used as HTTP HEADER: `Authorization: Bearer <TOKEN>`, please see [Makefile](/Makefile) for examples.
 
 ## Out of scope, but also good to consider
 
