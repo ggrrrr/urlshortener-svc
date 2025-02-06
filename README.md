@@ -120,6 +120,7 @@
     * [repo](/be/shorturl/internal/repo) - Models and interfaces related to CRUD operattions
     * [Postgres](/be/shorturl/internal/repo/pg) - Implementation of repo for PostgreSQL database
 * [ui](/ui/) - VueJS with Vuetify
+  * [HelloWorld](/ui/src/components/HelloWorld.vue) - Main file with our UI compoments
   
   Very limited UI with very poor quality, as my knollage in UI is very limited.
 
