@@ -26,6 +26,7 @@ go_run:
 		DB_USERNAME=test \
 		DB_PASSWORD=test \
 		DB_DATABASE=test \
+		CORS_HOSTS="*" \
 		go run be/shorturl/cmd/main.go
 
 login:

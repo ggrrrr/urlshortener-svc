@@ -74,6 +74,14 @@
     2025/02/06 00:10:22 INFO Start ListenAddr=:8080
     ```
 
+* UI based on [VueJS](https://vuejs.org/guide/introduction.html) [VuetifyJS](https://vuetifyjs.com/en/)
+  * Run locally
+
+    ```bash
+    cd ui
+    npm run dev
+    ```
+
 ## Repository structure
 
 * [backend dockerfile](/be.Dockerfile) Dockerfile for building image
@@ -110,6 +118,9 @@
     * [keygenerator](/be/shorturl/internal/keygenerator) - Unique key generator
     * [repo](/be/shorturl/internal/repo) - Models and interfaces related to CRUD operattions
     * [Postgres](/be/shorturl/internal/repo/pg) - Implementation of repo for PostgreSQL database
+* [ui](/ui/) - VueJS with Vuetify
+  
+  Very limited UI with very poor quality, as my knollage in UI is very limited.
 
 ## Diagrams
 
