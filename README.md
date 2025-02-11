@@ -55,9 +55,11 @@
   * [docker compose](https://docs.docker.com/compose/install/)
   * [JSON Query](https://jqlang.org/download/)
   * [Linter](https://golangci-lint.run/welcome/install/) 
+  * [Node + npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+
 * Run it localy
   * Start local postgres
-    * `docker compose up -d postgres`
+    * `docker-compose up -d postgres`
   * Set env variables
 
     ```bash
@@ -80,6 +82,7 @@
 
     ```bash
     cd ui
+    npm install
     npm run dev
     ```
 
