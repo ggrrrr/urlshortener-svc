@@ -39,9 +39,7 @@ func NewListener(cfg Config, verifier roles.TokenVerifier) (*Listener, error) {
 	mux.Use(middleware.Logger)
 	mux.Use(middleware.Recoverer)
 	mux.Use(s.httpHandlerAuth)
-	if cfg.CORSHosts != "" {
-		mux.Use(s.httpHandlerCORS)
-	}
+	mux.Use(s.httpHandlerCORS)
 	s.mux = mux
 
 	webServer := &http.Server{

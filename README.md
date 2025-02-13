@@ -67,6 +67,8 @@
     export DB_USERNAME=test
     export DB_PASSWORD=test
     export DB_DATABASE=test
+    # Depending on your WEB UI setup you will need to set CORS_HOSTS variable
+    export CORS_HOSTS="*"
     ```
 
   * Start main.go
