@@ -219,14 +219,27 @@ func TestCreate(t *testing.T) {
 		key    *models.Key
 	}{
 		{
+			name: "bad url",
+			ctx:  adminCtx,
+			req: models.CreateShortURL{
+				LongURL: "dir.bg",
+			},
+			prepFn: func(t *testing.T) {
+				// mockGenerator.On("Generate").Return("key1").Once()
+				// mockRepo.On("Create", repo.NewRecord{Owner: "admin", Key: "key1", LongURL: "http://dir.bg"}).Return(nil).Once()
+			},
+			err: fmt.Errorf("asdasd"),
+			// key: &models.Key{Key: "key1"},
+		},
+		{
 			name: "ok",
 			ctx:  adminCtx,
 			req: models.CreateShortURL{
-				LongURL: "long1",
+				LongURL: "http://dir.bg",
 			},
 			prepFn: func(t *testing.T) {
 				mockGenerator.On("Generate").Return("key1").Once()
-				mockRepo.On("Create", repo.NewRecord{Owner: "admin", Key: "key1", LongURL: "long1"}).Return(nil).Once()
+				mockRepo.On("Create", repo.NewRecord{Owner: "admin", Key: "key1", LongURL: "http://dir.bg"}).Return(nil).Once()
 			},
 			err: nil,
 			key: &models.Key{Key: "key1"},
@@ -235,7 +248,7 @@ func TestCreate(t *testing.T) {
 			name: "ok 401",
 			ctx:  context.Background(),
 			req: models.CreateShortURL{
-				LongURL: "long1",
+				LongURL: "http://dir.bg",
 			},
 			prepFn: func(t *testing.T) {
 			},
@@ -246,11 +259,11 @@ func TestCreate(t *testing.T) {
 			name: "ok 500",
 			ctx:  context.Background(),
 			req: models.CreateShortURL{
-				LongURL: "long1",
+				LongURL: "http://dir.bg",
 			},
 			prepFn: func(t *testing.T) {
 				mockGenerator.On("Generate").Return("key1")
-				mockRepo.On("Create", repo.NewRecord{Owner: "admin", Key: "key1", LongURL: "long1"}).Return(fmt.Errorf("some error")).Once()
+				mockRepo.On("Create", repo.NewRecord{Owner: "admin", Key: "key1", LongURL: "http://dir.bg"}).Return(fmt.Errorf("some error")).Once()
 			},
 			err: application.NewSystemError("", nil),
 			key: nil,
