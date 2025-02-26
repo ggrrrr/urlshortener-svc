@@ -42,10 +42,15 @@ func (a *Application) Create(ctx context.Context, request models.CreateShortURL)
 		return nil, err
 	}
 
+	saveUrl, err := parseUrl(request.LongURL)
+	if err != nil {
+		return nil, application.NewBadRequest("bad request long url", err)
+	}
+
 	newRecord := repo.NewRecord{
 		Key:     "",
 		Owner:   authUser.Username,
-		LongURL: request.LongURL,
+		LongURL: saveUrl,
 	}
 
 	newKey, err := a.retryLoop(ctx, newRecord, 10)
